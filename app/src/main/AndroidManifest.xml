@@ -93,7 +93,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 
-                <data android:host="app.revolt.chat" />
+                <data android:host="chat.entrappt.com" />
 
                 <data android:pathPrefix="/invite/" />
             </intent-filter>
@@ -106,7 +106,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 
-                <data android:host="rvlt.gg" />
+                <data android:host="chat.entrappt.com" />
 
                 <uri-relative-filter-group
                     android:allow="false"
@@ -124,7 +124,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 
-                <data android:host="stoat.chat" />
+                <data android:host="chat.entrappt.com" />
 
                 <data android:pathPrefix="/invite/" />
             </intent-filter>
@@ -137,7 +137,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 
-                <data android:host="stt.gg" />
+                <data android:host="chat.entrappt.com" />
 
                 <uri-relative-filter-group
                     android:allow="false"
