@@ -37,6 +37,12 @@
         android:theme="@style/Theme.Stoat"
         android:enableOnBackInvokedCallback="true"
         tools:targetApi="tiramisu">
+        <!-- Block Firebase auto-init from transitive google play services deps -->
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="${applicationId}.firebaseinitprovider"
+            tools:node="remove" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
