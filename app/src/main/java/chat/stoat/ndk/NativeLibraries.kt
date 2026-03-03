@@ -12,8 +12,7 @@ annotation class NativeLibrary(val name: String) {
 object NativeLibraries {
     fun init() {
         System.loadLibrary(NativeLibrary.LIB_NAME_NATIVE_MARKDOWN)
-        System.loadLibrary(NativeLibrary.LIB_NAME_NATIVE_MARKDOWN_V2)
         Stendal.init()
-        FinalMarkdown.init(BuildConfig.DEBUG)
+        // finalmarkdown has no native source yet — skip loading
     }
 }
