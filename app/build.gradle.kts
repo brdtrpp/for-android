@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.sentry.android)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.google.services)
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
