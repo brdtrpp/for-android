@@ -72,7 +72,6 @@ import chat.stoat.api.StoatAPI
 import chat.stoat.api.internals.DirectMessages
 import chat.stoat.api.realtime.DisconnectionState
 import chat.stoat.api.realtime.RealtimeSocket
-import chat.stoat.api.routes.push.subscribePush
 import chat.stoat.callbacks.Action
 import chat.stoat.callbacks.ActionChannel
 import chat.stoat.composables.chat.DisconnectedNotice
@@ -99,11 +98,8 @@ import chat.stoat.sheets.StatusSheet
 import chat.stoat.sheets.UserInfoSheet
 import chat.stoat.sheets.WebHookUserSheet
 import chat.stoat.sheets.spark.SwipeToReplySparkSheet
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.sentry.Sentry
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -217,21 +213,8 @@ class ChatRouterViewModel @Inject constructor(
 
     fun setRegisterForNotifications() {
         showNotificationRationale = false
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(
-            OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("FCM", "Fetching FCM registration token failed", task.exception)
-                    task.exception?.let { Sentry.captureException(it) }
-                    return@OnCompleteListener
-                }
-
-                val token = task.result
-                viewModelScope.launch {
-                    kvStorage.set("fcmToken", token)
-                    subscribePush(auth = token)
-                }
-            }
-        )
+        // Firebase removed — push notifications not available on self-hosted instance
+        Log.w("FCM", "Push notifications are not available (Firebase removed)")
     }
 
     fun markNotificationsRejected() {
