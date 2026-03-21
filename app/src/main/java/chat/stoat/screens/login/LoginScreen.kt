@@ -53,6 +53,7 @@ import chat.stoat.api.STOAT_WEB_APP
 import chat.stoat.api.StoatAPI
 import chat.stoat.api.routes.account.EmailPasswordAssessment
 import chat.stoat.api.routes.account.negotiateAuthentication
+import chat.stoat.api.routes.push.subscribePush
 import chat.stoat.api.routes.onboard.needsOnboarding
 import chat.stoat.composables.generic.FormTextField
 import chat.stoat.composables.generic.Weblink
@@ -127,6 +128,13 @@ class LoginViewModel @Inject constructor(
 
                         StoatAPI.loginAs(token)
                         StoatAPI.setSessionId(response.firstUserHints.token)
+
+                        com.google.firebase.messaging.FirebaseMessaging.getInstance().token
+                            .addOnSuccessListener { fcmToken ->
+                                viewModelScope.launch {
+                                    runCatching { subscribePush(auth = fcmToken) }
+                                }
+                            }
 
                         _navigateTo = "home"
                     } catch (e: Error) {

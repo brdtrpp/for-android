@@ -37,11 +37,13 @@
         android:theme="@style/Theme.Stoat"
         android:enableOnBackInvokedCallback="true"
         tools:targetApi="tiramisu">
-        <!-- Block Firebase auto-init from transitive google play services deps -->
-        <provider
-            android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="${applicationId}.firebaseinitprovider"
-            tools:node="remove" />
+        <service
+            android:name=".c2dm.StoatFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

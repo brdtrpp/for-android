@@ -270,6 +270,9 @@ dependencies {
 
     implementation(libs.square.logcat)
 
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
+
     androidTestImplementation(libs.android.test.core)
     androidTestImplementation(libs.android.test.rules)
     androidTestImplementation(libs.compose.ui.test.junit4)

@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -109,13 +110,22 @@ fun DebugSettingsScreen(
     val askNotificationsPermission =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                // Firebase removed — push notifications not available on self-hosted instance
-                Log.w("DebugSettingsScreen", "Push notifications are not available (Firebase removed)")
+                Log.i("DebugSettingsScreen", "Notification permission granted")
             }
         }
     var showC2dmDataDialogue by remember { mutableStateOf(false) }
-    var fcmToken by remember { mutableStateOf("") }
+    var fcmToken by remember { mutableStateOf("Loading...") }
     var playServicesAvailable by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().token
+            .addOnSuccessListener { token -> fcmToken = token }
+            .addOnFailureListener { fcmToken = "Failed: ${it.message}" }
+        playServicesAvailable = try {
+            com.google.android.gms.common.GoogleApiAvailability.getInstance()
+                .isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS
+        } catch (_: Exception) { false }
+    }
 
     if (showNotificationsRationaleDialogue) {
         NotificationRationaleDialog(
@@ -237,8 +247,6 @@ fun DebugSettingsScreen(
                     }
 
                     ElevatedButton(onClick = {
-                        playServicesAvailable = false
-                        fcmToken = "Firebase removed — not available on self-hosted instance"
                         showC2dmDataDialogue = true
                     }) {
                         Text("Show Notification Properties")
